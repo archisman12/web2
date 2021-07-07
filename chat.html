@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Ask your doubts</title>
+</head>
+
+<link rel="stylesheet" href="chat.css">
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-database.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyCXrdkN8Y64vo5h7zZr1Pkza8c5zB73c48",
+    authDomain: "web-doubt-discussion-original.firebaseapp.com",
+    projectId: "web-doubt-discussion-original",
+    storageBucket: "web-doubt-discussion-original.appspot.com",
+    messagingSenderId: "210446178702",
+    appId: "1:210446178702:web:1143c1b8c138e1da78ecdf"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
+<body>
+
+    <div class="cointaner">
+        <a href="index.html">
+        <button class="btn btn1">Go back</button>
+    </a>
+        
+    </div>
+    
+    <div id="wrapper">
+        <div id="menu">
+            <p class="welcome"><i><b>CLEAR ALL YOUR <br>DOUBTS</br></b></i>
+
+
+            </p>
+            <div id="chatbox">
+                <ul id="messages">
+
+                </ul>
+            </div>
+        </div>
+        <form onsubmit="return sendMessage();">
+            <input type="text" name="" id="message" class="usermsg" size="63"placeholder="ENTER YOUR DOUBT..." autocomplete="off">
+            <input type="submit" name="" class="button" >
+        </form>
+        
+        
+    </div>
+</body>
+<script>
+let myName = prompt("ENTER YOUR NAME")
+
+ 
+const sendMessage =() =>{
+    let message =document.getElementById("message").value
+    firebase.database().ref("messages").push().set({
+        "sender": myName,
+        "message": message
+    });
+    let message1 = document.getElementById("message")
+    message.value=""
+    return false;
+}
+ 
+   firebase.database().ref("messages").on("child_added", function (snap){
+        var html ="";
+            html += "<li>";
+        html +=  snap.val().sender +": " + snap.val().message;
+        html +="</li>";
+        document.getElementById("messages").innerHTML += html;
+   });
+
+   
+   
+</script>
+</html>
